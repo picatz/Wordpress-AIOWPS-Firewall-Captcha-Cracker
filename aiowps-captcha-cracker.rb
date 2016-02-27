@@ -46,25 +46,26 @@ else
 		url.prepend("http://www.")		
 	end
 
-	# if the url dosen't include the wordpress login bit
+	# if the url dosen't include the wordpress login bit, we'll add it
 	unless ( ARGV[0].include? "/wp-login.php")
 		url << "/wp-login.php"
 	end
 end
 
 begin 
-# start working the hte data, parse the html
+# start working the the data, parse the html
 data = Nokogiri::HTML(open(url)) 
 
+# grab the stuff we need 
 encoded_data = data.xpath('//*[@id="aiowps-captcha-string-info"]')
 
-# split the html elements up
+# split the html elements up 
 relevant = encoded_data.to_s.split
 
-# 4th one is the one that contain the encoded string
+# 4th one is the one that contains the encoded string
 encoded_answer = relevant[4].gsub( /value="/,"" ).gsub( /=">/,"" ) 
 
-# decode from the encoded answer
+# decode encoded_answer
 decoded_answer = Base64.decode64(encoded_answer)
 
 # grab the captcha answer as string first
@@ -80,7 +81,7 @@ unless valid_number?(captcha_answer)
 	# if not valid number, only grab last char which will be a number always 
 	captcha_answer = decoded_answer.split(//).last(1).join.to_i
 else
-	# if valid, grab last two, but store as int because why not
+	# if valid, grab last two
 	captcha_answer = decoded_answer.split(//).last(2).join.to_i
 end
 
