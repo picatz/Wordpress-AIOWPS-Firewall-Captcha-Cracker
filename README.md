@@ -11,8 +11,6 @@ TODO:
 You're going to need to install the following ruby gems:                                                                     
 `gem install nokogiri`
 
-nokogiri - http://www.nokogiri.org/
-
 ## Usage
 `ruby aiowps-captcha-cracker.rb http://www.target-url.com/wp-login.php`
 
